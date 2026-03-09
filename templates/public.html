@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="text-center mb-16">
+        <h1
+            class="text-4xl md:text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 mb-4 tracking-tight">
+            Messages from the Past
+        </h1>
+        <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+            A global wall of thoughts, hopes, and memories that were meant to be shared.
+            These capsules were written in the past and have successfully unlocked today.
+        </p>
+    </div>
+
+    {% if capsules %}
+    <div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+        {% for capsule in capsules %}
+        <div
+            class="break-inside-avoid glass-panel p-6 rounded-2xl hover:-translate-y-1 transition duration-300 border-t border-l border-white/10 hover:border-purple-500/30 hover:shadow-[0_0_15px_rgba(168,85,247,0.2)]">
+            <div class="flex items-center gap-3 mb-4">
+                <div
+                    class="h-10 w-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center font-bold text-white uppercase shadow-inner">
+                    {{ capsule.user.name[0] }}
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-semibold text-white">{{ capsule.user.name|truncate(15) }}</span>
+                    <span class="text-xs text-gray-400">{{ capsule.delivery_time.strftime('%b %d, %Y') }}</span>
+                </div>
+            </div>
+
+            <div class="bg-black/20 p-4 rounded-xl mb-4 text-gray-200">
+                <p class="italic">"{{ capsule.message }}"</p>
+            </div>
+
+            <div class="flex justify-between items-center text-xs text-gray-500 border-t border-white/5 pt-3">
+                <span>Traveled through time</span>
+                <div class="flex items-center gap-1">
+                    <span class="text-purple-400">Written:</span>
+                    <span>{{ capsule.created_at.strftime('%Y') }}</span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="glass-panel p-16 text-center rounded-3xl max-w-2xl mx-auto border-dashed border-2 border-white/10">
+        <span class="text-5xl mb-6 block">🕰️</span>
+        <h3 class="text-2xl font-bold text-gray-300 mb-2">No past messages yet</h3>
+        <p class="text-gray-500">The time stream is currently empty. Public capsules will appear here once their
+            delivery dates arrive.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Capsule Messenger - WhatsApp Edition</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for Futuristic Look -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        body { font-family: 'Outfit', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-900 text-white antialiased min-h-screen flex flex-col items-center futuristic-bg relative overflow-x-hidden">
+    <!-- Navbar -->
+    <nav class="w-full max-w-7xl mx-auto px-6 py-6 flex justify-between items-center z-10 relative">
+        <a href="{{ url_for('capsule_bp.index') }}" class="text-2xl font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+            TimeCapsule
+        </a>
+        <div class="space-x-6">
+            <a href="{{ url_for('capsule_bp.public_capsules') }}" class="text-gray-300 hover:text-white transition">Public Feed</a>
+            {% if session.get('user_id') %}
+                <a href="{{ url_for('capsule_bp.dashboard') }}" class="text-gray-300 hover:text-white transition">Dashboard</a>
+                <a href="{{ url_for('capsule_bp.create_capsule') }}" class="text-gray-300 hover:text-white transition">Create</a>
+                <a href="{{ url_for('auth.logout') }}" class="px-5 py-2 rounded-full border border-pink-500 text-pink-500 hover:bg-pink-500 hover:text-white transition">Logout</a>
+            {% else %}
+                <a href="{{ url_for('auth.login') }}" class="px-5 py-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold hover:shadow-lg hover:shadow-pink-500/50 transition">Login</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Flashed Messages -->
+    <div class="z-50 w-full max-w-md mx-auto mt-4 px-4 text-center">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="glass-panel text-pink-300 px-4 py-3 rounded mb-2 shadow-lg animate-fade-in-down border border-pink-500/30">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow w-full z-10 relative flex flex-col items-center pt-8">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 text-gray-500 text-sm z-10 relative mt-auto border-t border-white/5">
+        &copy; 2026 Time Capsule Messenger. Send a message through time.
+    </footer>
+</body>
+</html>

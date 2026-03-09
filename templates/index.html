@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-7xl mx-auto px-6 text-center py-20">
+    <h1 class="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight">
+        Send a message <br>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">through time.</span>
+    </h1>
+    <p class="text-xl md:text-2xl text-gray-400 mb-10 max-w-2xl mx-auto font-light">
+        Write to your future self. Receive the message exactly when you need it most, delivered straight to your
+        WhatsApp.
+    </p>
+
+    <div class="flex justify-center gap-6">
+        <a href="{{ url_for('auth.login') }}"
+            class="px-8 py-4 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-lg hover:scale-105 transition-transform duration-300 shadow-lg shadow-pink-500/30">
+            Create Capsule Setup
+        </a>
+        <a href="{{ url_for('capsule_bp.public_capsules') }}"
+            class="px-8 py-4 rounded-full glass-panel text-white font-bold text-lg hover:bg-white/5 transition duration-300">
+            View Public Past
+        </a>
+    </div>
+
+    <!-- Feature grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-24 text-left">
+        <div class="glass-panel p-8 rounded-2xl">
+            <div class="h-12 w-12 rounded-full bg-purple-500/20 flex items-center justify-center mb-6 text-2xl">🎯</div>
+            <h3 class="text-xl font-bold mb-3">Goal Setting</h3>
+            <p class="text-gray-400 line-clamp-3">Reflect on where you see yourself and keep your future self
+                accountable.</p>
+        </div>
+        <div class="glass-panel p-8 rounded-2xl border-purple-500/30">
+            <div class="h-12 w-12 rounded-full bg-pink-500/20 flex items-center justify-center mb-6 text-2xl">⚡</div>
+            <h3 class="text-xl font-bold mb-3">WhatsApp Delivery</h3>
+            <p class="text-gray-400">Arrives exactly on time as a standard message. Keep memories safe and integrated
+                securely.</p>
+        </div>
+        <div class="glass-panel p-8 rounded-2xl">
+            <div class="h-12 w-12 rounded-full bg-blue-500/20 flex items-center justify-center mb-6 text-2xl">🌍</div>
+            <h3 class="text-xl font-bold mb-3">Public Wall</h3>
+            <p class="text-gray-400">Optionally share your hopes and dreams with the world anonymously by marking
+                capsules public.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

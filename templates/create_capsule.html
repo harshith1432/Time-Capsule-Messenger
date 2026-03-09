@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="w-full max-w-2xl mx-auto mt-10 p-8 glass-panel rounded-2xl relative overflow-hidden mb-20">
+    <div
+        class="absolute -top-10 -left-10 w-40 h-40 bg-purple-600 rounded-full mix-blend-screen filter blur-[60px] opacity-20">
+    </div>
+    <div
+        class="absolute -bottom-10 -right-10 w-40 h-40 bg-pink-600 rounded-full mix-blend-screen filter blur-[60px] opacity-20">
+    </div>
+
+    <div class="relative z-10 text-center mb-8 border-b border-white/10 pb-6">
+        <h2 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-500 mb-2">
+            Create Time Capsule</h2>
+        <p class="text-gray-400">Write a message for your future self.</p>
+    </div>
+
+    <!-- Flatpickr CSS & Dark Theme -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
+
+    <form method="POST" action="{{ url_for('capsule_bp.create_capsule') }}" class="relative z-10 space-y-6">
+        <div>
+            <label class="block text-sm font-medium text-gray-300 mb-2">Your Message</label>
+            <textarea name="message" id="message" rows="5" required
+                placeholder="Dear future me, never give up building..."
+                class="w-full px-4 py-3 rounded-lg glass-input text-white placeholder-gray-500 transition-all resize-none"></textarea>
+
+            <!-- AI Placeholder feature interaction -->
+            <button type="button" onclick="generateAIMessage()"
+                class="text-xs text-pink-400 hover:text-pink-300 mt-2 flex items-center gap-1 transition">
+                <span>✨</span> Generate AI Inspiration
+            </button>
+            <p id="ai-reflection" class="text-sm text-purple-300 mt-2 italic hidden"></p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Delivery Date</label>
+                <input type="text" id="delivery_date" name="delivery_date" required placeholder="Select Date"
+                    class="w-full px-4 py-3 rounded-lg glass-input text-white placeholder-gray-500 transition-all cursor-pointer">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Delivery Time</label>
+                <input type="text" id="delivery_time" name="delivery_time" required placeholder="Select Time"
+                    class="w-full px-4 py-3 rounded-lg glass-input text-white placeholder-gray-500 transition-all cursor-pointer">
+            </div>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-300 mb-2">Recipient WhatsApp Number</label>
+            <input type="tel" name="recipient_number" required pattern="^\+[1-9]\d{1,14}$"
+                title="Please enter a valid WhatsApp number starting with a '+' and country code (e.g., +1234567890)"
+                placeholder="e.g. +1234567890"
+                class="w-full px-4 py-3 rounded-lg glass-input text-white placeholder-gray-500 transition-all">
+            <p class="text-xs text-gray-400 mt-1">Must include country code (e.g., +91, +1, +44).</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 border-t border-white/10 pt-6">
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Privacy</label>
+                <select name="privacy_type"
+                    class="w-full px-4 py-3 rounded-lg glass-input text-white [&>option]:text-black transition-all appearance-none cursor-pointer">
+                    <option value="private">Private (Only Me)</option>
+                    <option value="public">Public (Show on Global Wall)</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Optional Password (Lock capsule)</label>
+                <input type="password" name="password" placeholder="Leave blank for automatic delivery"
+                    class="w-full px-4 py-3 rounded-lg glass-input text-white placeholder-gray-500 transition-all">
+                <p class="text-xs text-gray-500 mt-1">If set, recipient must click a link and enter this password to
+                    view it.</p>
+            </div>
+        </div>
+
+        <button type="submit"
+            class="w-full py-4 mt-8 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 font-bold text-lg hover:from-purple-500 hover:to-pink-500 transition-all shadow-[0_0_20px_rgba(236,72,153,0.3)]">
+            Lock Capsule & Schedule
+        </button>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    // Initialize Flatpickr for date and time fields
+    flatpickr("#delivery_date", {
+        minDate: "today",
+        dateFormat: "Y-m-d",
+    });
+
+    flatpickr("#delivery_time", {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        time_24hr: true
+    });
+
+    const reflections = [
+        "Your future self might thank you for writing this today.",
+        "A small note today could be exactly what you need to hear tomorrow.",
+        "Remember this feeling. Write it down so you never forget.",
+        "This is proof that you cared enough about your future to write.",
+        "It's amazing how much can change. Leave a marker for where you are right now."
+    ];
+
+    function generateAIMessage() {
+        const textElement = document.getElementById('ai-reflection');
+        const randomRef = reflections[Math.floor(Math.random() * reflections.length)];
+        textElement.innerText = "AI Reflection: " + randomRef;
+        textElement.classList.remove('hidden');
+        textElement.classList.add('animate-fade-in-down');
+    }
+</script>
+{% endblock %}
